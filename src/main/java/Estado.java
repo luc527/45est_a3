@@ -14,6 +14,16 @@ public class Estado
             return n == 0 ? null : bs[n-1];
         }
 
+        public boolean satisfaz() {
+            if (n == 0) return true;
+            if (n != 4) return false;
+            Bola b = bs[0];
+            for (int i = 1; i < 4; i++)
+                if (bs[i] != b)
+                    return false;
+            return true;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -38,6 +48,17 @@ public class Estado
         this.tubos = new Tubo[t+2];
         for (int i = 0; i < t+2; i++)
             tubos[i] = new Tubo();
+    }
+
+    public Estado copia() {
+        Estado c = new Estado(tubos.length - 2);
+        for (int i = 0; i < tubos.length; i++) {
+            c.tubos[i].n = tubos[i].n;
+            for (int j = 0; j < 4; j++) {
+                c.tubos[i].bs[j] = tubos[i].bs[j];
+            }
+        }
+        return c;
     }
 
     public List<Estado> sucessores() {
@@ -74,15 +95,11 @@ public class Estado
         return copia;
     }
 
-    public Estado copia() {
-        Estado c = new Estado(tubos.length - 2);
-        for (int i = 0; i < tubos.length; i++) {
-            c.tubos[i].n = tubos[i].n;
-            for (int j = 0; j < 4; j++) {
-                c.tubos[i].bs[j] = tubos[i].bs[j];
-            }
-        }
-        return c;
+    public boolean satisfaz() {
+        for (Tubo t : tubos)
+            if (!t.satisfaz())
+                return false;
+        return true;
     }
 
     public String toString() {

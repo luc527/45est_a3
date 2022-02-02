@@ -24,7 +24,7 @@ public enum Bola
     }
 
     public static Bola from(String s) {
-        switch (s) {
+        switch (s.trim()) {
             case "vecl": return VERDE_CLARO;
             case "cinz": return CINZA;
             case "lara": return LARANJA;

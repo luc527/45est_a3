@@ -7,6 +7,10 @@ public class Estado
     {
         Bola[] bs = new Bola[4];
         int    n  = 0;
+
+        public Bola topo() {
+            return n == 0 ? null : bs[n-1];
+        }
     }
 
     private Tubo[] tubos;
@@ -19,35 +23,38 @@ public class Estado
             tubos[i] = new Tubo();
     }
 
-    // O jogo inicial pode ter duas bolas de cores iguais uma em cima da outra
-    // Então usamos colocar(..., true) ao construir a partir de um jogo existente
-    // E a implementação pública usa colocar(..., false)
-    private boolean colocar(int i, Bola b, boolean podeIgual) {
-        Tubo tubo = tubos[i];
-        if (tubo.n == 4) return false;
-        if (tubo.n > 0 && !podeIgual && tubo.bs[tubo.n-1] == b) return false;
-        tubo.bs[tubo.n++] = b;
-        return true;
-    }
+    public List<Estado> sucessores() {
+        List<Estado> sucessores = new ArrayList<>();
 
-    public boolean colocar(int i, Bola b) {
-        return colocar(i, b, false);
-    }
-
-    public Bola tirar(int i) {
-        Tubo tubo = tubos[i];
-        if (tubo.n == 0) return null;
-        return tubo.bs[--tubo.n];
-    }
-
-    public boolean mover(int i, int j) {
-        Bola b = tirar(i);
-        if (b == null) return false;
-        if (colocar(j, b)) return true;
-        else {
-            colocar(i, b);  // Colocar de volta
-            return false;
+        for (int i = 0; i < tubos.length; i++) {
+            for (int j = 0; j < tubos.length; j++) {
+                Estado sucessor = mover(i, j);
+                if (sucessor != null)
+                    sucessores.add(sucessor);
+            }
         }
+
+        return sucessores;
+    }
+
+    public Estado mover(int i, int j) {
+        Tubo orig = tubos[i];
+        Tubo dest = tubos[j];
+        Bola bola = orig.topo();
+
+        if (i == j) return null;
+        if (orig.n == 0) return null;
+        if (dest.n == 4) return null;
+        if (dest.n > 0 && bola == dest.topo()) return null;
+
+        Estado copia = copia();
+        orig = copia.tubos[i];
+        dest = copia.tubos[j];
+
+        dest.bs[dest.n++] = bola;
+        orig.bs[--orig.n] = null;
+
+        return copia;
     }
 
     public Estado copia() {
@@ -76,17 +83,22 @@ public class Estado
             }
             sep1 = "\n";
         }
-        return sb.toString();
+        return sb.append("\n").toString();
     }
 
     public static Estado from(String estadoStr) {
         String[] tubosStr = estadoStr.split("\n");
         Estado e = new Estado(tubosStr.length);
         for (int i = 0; i < tubosStr.length; i++) {
-            for (String bolaStr : tubosStr[i].split(" ")) {
-                e.colocar(i, Bola.from(bolaStr), true);
+            String[] bolasStr = tubosStr[i].split(" ");
+            if (bolasStr.length > 4) throw new RuntimeException("Mais de 4 bolas no tubo");
+            e.tubos[i].n = bolasStr.length;
+            for (int j = 0; j < bolasStr.length; j++) {
+                e.tubos[i].bs[j] = Bola.from(bolasStr[j]);
             }
         }
         return e;
     }
+
+    // TODO equals e hashCode
 }

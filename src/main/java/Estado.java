@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Estado
 {
@@ -10,6 +12,21 @@ public class Estado
 
         public Bola topo() {
             return n == 0 ? null : bs[n-1];
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Tubo tubo = (Tubo) o;
+            return n == tubo.n && Arrays.equals(bs, tubo.bs);
+        }
+
+        @Override
+        public int hashCode() {
+            int result = Objects.hash(n);
+            result = 31 * result + Arrays.hashCode(bs);
+            return result;
         }
     }
 
@@ -100,5 +117,16 @@ public class Estado
         return e;
     }
 
-    // TODO equals e hashCode
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Estado estado = (Estado) o;
+        return Arrays.equals(tubos, estado.tubos);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(tubos);
+    }
 }

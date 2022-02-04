@@ -15,12 +15,15 @@ public class App
 
         List<Estado> sucessores = e.sucessores();
 
-        System.out.println("Pressione ENTER para prosseguir");
+        // Não vai ser criada com os sucessores assim, é só pra testar
+        JanelaSolucao janelaSolucao = new JanelaSolucao(sucessores);
+
+        /*System.out.println("Pressione ENTER para prosseguir");
         System.out.println("// Sucessores --------------------------------------------");
         for (Estado s : sucessores) {
             System.out.print(s.toString());
             scan.nextLine();
-        }
+        }*/
 
         /*
         System.out.println("// Sucessores do primeiro sucessor -----------------------");

@@ -103,6 +103,24 @@ public class Estado
         return true;
     }
 
+    public int numeroDeTubos() {
+        return tubos.length;
+    }
+
+    public interface FuncaoIteracao {
+        void exec(int indiceTubo, int indiceBola, Bola bola);
+    }
+
+    public void iterar(FuncaoIteracao fn) {
+        for (int t = 0; t < tubos.length; t++) {
+            for (int b = 0; b < 4; b++) {
+                fn.exec(t, b, tubos[t].bs[b]);
+            }
+        }
+    }
+
+    // ------------------------------
+
     public static Estado from(String estadoStr) {
         String[] tubosStr = estadoStr.split("\n");
         Estado e = new Estado(tubosStr.length);
@@ -115,18 +133,6 @@ public class Estado
             }
         }
         return e;
-    }
-
-    public int numeroDeTubos() {
-        return tubos.length;
-    }
-
-    public void iterar(TriConsumer<Integer, Integer, Bola> fn) {
-        for (int t = 0; t < tubos.length; t++) {
-            for (int b = 0; b < 4; b++) {
-                fn.accept(t, b, tubos[t].bs[b]);
-            }
-        }
     }
 
     @Override

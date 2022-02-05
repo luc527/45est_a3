@@ -16,7 +16,7 @@ public class App
         List<Estado> sucessores = e.sucessores();
 
         // Não vai ser criada com os sucessores assim, é só pra testar
-        JanelaSolucao janelaSolucao = new JanelaSolucao(sucessores);
+        JanelaSolucao janelaSolucao = new JanelaSolucao(sucessores, "teste", 55);
 
         /*System.out.println("Pressione ENTER para prosseguir");
         System.out.println("// Sucessores --------------------------------------------");

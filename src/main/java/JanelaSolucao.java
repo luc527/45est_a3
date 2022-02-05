@@ -4,30 +4,40 @@ import java.util.List;
 
 public class JanelaSolucao
 {
-    private List<Estado> solucao;
+    private final List<Estado> solucao;
     private int indiceAtual;
 
-    private JFrame frame;
-    private JButton voltarTudo;
-    private JButton voltar;
-    private JButton avancar;
-    private JButton avancarTudo;
+    private final JFrame frame;
+    private final JButton voltarTudo;
+    private final JButton voltar;
+    private final JButton avancar;
+    private final JButton avancarTudo;
 
-    private JPanel panelEstado;
+    private final JLabel cabecalho;
+    private final String metodo;
+    private final int tempoMs;
+
+    private final EstadoImagem estadoImagem;
 
     // ------------------------------
 
-    public JanelaSolucao(List<Estado> solucao)
+    public JanelaSolucao(List<Estado> solucao, String metodo, int tempoMs)
     {
-        this.solucao = solucao;
-
         if (solucao.size() == 0) {
             throw new RuntimeException("Janela não pode ser aberta com 0 soluções");
         }
 
-        voltarTudo = new JButton("<<");
+        this.solucao = solucao;
+        this.metodo = metodo;
+        this.tempoMs = tempoMs;
+
+        JPanel panelCabecalho = new JPanel();
+        cabecalho = new JLabel();
+        panelCabecalho.add(cabecalho);
+
+        voltarTudo = new JButton("|<<");
         voltar = new JButton("<");
-        avancarTudo = new JButton(">>");
+        avancarTudo = new JButton(">>|");
         avancar = new JButton(">");
 
         voltarTudo.addActionListener(e -> refresh(0));
@@ -35,19 +45,20 @@ public class JanelaSolucao
         avancar.addActionListener(e -> refresh(indiceAtual + 1));
         avancarTudo.addActionListener(e -> refresh(solucao.size() - 1));
 
-        JPanel botoes = new JPanel();
-        botoes.setLayout(new FlowLayout(FlowLayout.CENTER));
-        botoes.add(voltarTudo);
-        botoes.add(voltar);
-        botoes.add(avancar);
-        botoes.add(avancarTudo);
+        JPanel panelBotoes = new JPanel();
+        panelBotoes.setLayout(new FlowLayout(FlowLayout.CENTER));
+        panelBotoes.add(voltarTudo);
+        panelBotoes.add(voltar);
+        panelBotoes.add(avancar);
+        panelBotoes.add(avancarTudo);
 
-        panelEstado = new JPanel();
+        estadoImagem = new EstadoImagem();
 
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.add(botoes, BorderLayout.PAGE_END);
-        panel.add(panelEstado, BorderLayout.CENTER);
+        panel.add(panelCabecalho, BorderLayout.PAGE_START);
+        panel.add(panelBotoes, BorderLayout.PAGE_END);
+        panel.add(estadoImagem, BorderLayout.CENTER);
 
         frame = new JFrame();
         frame.setTitle("Solução");
@@ -60,6 +71,10 @@ public class JanelaSolucao
     private void refresh(int i)
     {
         this.indiceAtual = i;
+
+        cabecalho.setText(
+                String.format("%s (%d/%d) %dms", metodo, indiceAtual+1, solucao.size(), tempoMs)
+        );
 
         voltarTudo.setEnabled(true);
         voltar.setEnabled(true);
@@ -75,8 +90,7 @@ public class JanelaSolucao
             avancarTudo.setEnabled(false);
         }
 
-        panelEstado.removeAll();
-        panelEstado.add(new EstadoImagem(solucao.get(i)));
+        estadoImagem.setEstado(solucao.get(i));
         frame.repaint();
         frame.pack();
     }

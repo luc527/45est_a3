@@ -5,7 +5,7 @@ public class EstadoImagem extends JPanel
 {
     private Estado estado;
 
-    public EstadoImagem(Estado estado) {
+    public void setEstado(Estado estado) {
         this.estado = estado;
     }
 
@@ -16,11 +16,12 @@ public class EstadoImagem extends JPanel
 
     @Override
     public void paintComponent(Graphics g) {
+        if (estado == null) return;
         super.paintComponent(g);
-        estado.iterar((x, y, bola) -> {
+        estado.iterar((t, b, bola) -> {
             if (bola == null) return;
             g.setColor(bola.cor());
-            g.fillOval(64*x, 192-64*y, 64, 64);
+            g.fillOval(64*t, 192-64*b, 64, 64);
         });
     }
 }

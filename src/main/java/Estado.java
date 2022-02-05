@@ -119,6 +119,20 @@ public class Estado
         }
     }
 
+    public boolean valido() {
+        for (Bola bola : Bola.values()) {
+            int count = 0;
+            for (int t = 0; t < tubos.length; t++)
+                for (int b = 0; b < 4; b++)
+                    if (tubos[t].bs[b] == bola)
+                        count++;
+            if (count != 0 && count != 4) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // ------------------------------
 
     public static Estado from(String estadoStr) {

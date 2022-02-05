@@ -44,6 +44,17 @@ public class JanelaPrincipal
                     String jogo = Files.readString(
                             Path.of(chooser.getSelectedFile().getAbsolutePath()));
                     estado = Estado.from(jogo);
+
+                    if (!estado.valido()) {
+                        JOptionPane.showMessageDialog(
+                            frame,
+                            "Jogo inválido. Toda cor que aparecer deve aparecer exatamente 4 vezes.",
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE
+                        );
+                        return;
+                    }
+
                     estadoImagem.setEstado(estado);
                     btnProfundidade.setEnabled(true);
                     btnLargura.setEnabled(true);

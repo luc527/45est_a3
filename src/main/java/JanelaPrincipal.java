@@ -27,13 +27,13 @@ public class JanelaPrincipal
         panel.add(estadoImagem, BorderLayout.CENTER);
         panel.add(panelBotoes, BorderLayout.PAGE_END);
 
-        btnProfundidade.setEnabled(false);
-        btnLargura.setEnabled(false);
-
         JFrame frame = new JFrame();
         frame.setContentPane(panel);
         frame.setTitle("Ball Sort Puzzle Solver – Trabalho de 45EST");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        btnProfundidade.setEnabled(false);
+        btnLargura.setEnabled(false);
 
         btnCarregar.addActionListener(e -> {
             JFileChooser chooser = new JFileChooser();

@@ -84,7 +84,7 @@ public class Estado
         if (i == j) return null;
         if (orig.n == 0) return null;
         if (dest.n == 4) return null;
-        if (dest.n > 0 && bola == dest.topo()) return null;
+        if (dest.n > 0 && bola != dest.topo()) return null;
 
         Estado copia = copia();
         orig = copia.tubos[i];

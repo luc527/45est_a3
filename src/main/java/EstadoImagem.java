@@ -11,13 +11,15 @@ public class EstadoImagem extends JPanel
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(estado.numeroDeTubos() * 64, 256);
+        return estado == null
+             ? super.getPreferredSize()
+             : new Dimension(estado.numeroDeTubos()*64, 256);
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        if (estado == null) return;
         super.paintComponent(g);
+        if (estado == null) return;
         estado.iterar((t, b, bola) -> {
             if (bola == null) return;
             g.setColor(bola.cor());

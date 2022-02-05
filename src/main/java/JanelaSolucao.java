@@ -62,6 +62,7 @@ public class JanelaSolucao
 
         frame = new JFrame();
         frame.setTitle("Solução");
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setContentPane(panel);
         frame.setVisible(true);
 
@@ -93,5 +94,6 @@ public class JanelaSolucao
         estadoImagem.setEstado(solucao.get(i));
         frame.repaint();
         frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 }

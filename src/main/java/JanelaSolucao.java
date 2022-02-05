@@ -15,6 +15,8 @@ public class JanelaSolucao
 
     private JPanel panelEstado;
 
+    // ------------------------------
+
     public JanelaSolucao(List<Estado> solucao)
     {
         this.solucao = solucao;
@@ -48,6 +50,7 @@ public class JanelaSolucao
         panel.add(panelEstado, BorderLayout.CENTER);
 
         frame = new JFrame();
+        frame.setTitle("Solução");
         frame.setContentPane(panel);
         frame.setVisible(true);
 
@@ -72,12 +75,9 @@ public class JanelaSolucao
             avancarTudo.setEnabled(false);
         }
 
-        // Temporário, é pra ser uma imagem!
         panelEstado.removeAll();
-        JTextArea solucaoTextarea = new JTextArea();
-        solucaoTextarea.setEditable(false);
-        solucaoTextarea.setText(solucao.get(i).toString());
-        panelEstado.add(solucaoTextarea);
+        panelEstado.add(new EstadoImagem(solucao.get(i)));
+        frame.repaint();
         frame.pack();
     }
 }

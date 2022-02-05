@@ -15,6 +15,7 @@ public class Estado
         }
 
         public boolean satisfaz() {
+            // Vazio ou cheio e da mesma cor
             if (n == 0) return true;
             if (n != 4) return false;
             Bola b = bs[0];
@@ -50,7 +51,7 @@ public class Estado
             tubos[i] = new Tubo();
     }
 
-    public Estado copia() {
+    private Estado copia() {
         Estado c = new Estado(tubos.length - 2);
         for (int i = 0; i < tubos.length; i++) {
             c.tubos[i].n = tubos[i].n;
@@ -102,6 +103,33 @@ public class Estado
         return true;
     }
 
+    public static Estado from(String estadoStr) {
+        String[] tubosStr = estadoStr.split("\n");
+        Estado e = new Estado(tubosStr.length);
+        for (int i = 0; i < tubosStr.length; i++) {
+            String[] bolasStr = tubosStr[i].split(" ");
+            if (bolasStr.length > 4) throw new RuntimeException("Mais de 4 bolas no tubo");
+            e.tubos[i].n = bolasStr.length;
+            for (int j = 0; j < bolasStr.length; j++) {
+                e.tubos[i].bs[j] = Bola.from(bolasStr[j]);
+            }
+        }
+        return e;
+    }
+
+    public int numeroDeTubos() {
+        return tubos.length;
+    }
+
+    public void iterar(TriConsumer<Integer, Integer, Bola> fn) {
+        for (int t = 0; t < tubos.length; t++) {
+            for (int b = 0; b < 4; b++) {
+                fn.accept(t, b, tubos[t].bs[b]);
+            }
+        }
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String sep1 = "";
@@ -118,20 +146,6 @@ public class Estado
             sep1 = "\n";
         }
         return sb.append("\n").toString();
-    }
-
-    public static Estado from(String estadoStr) {
-        String[] tubosStr = estadoStr.split("\n");
-        Estado e = new Estado(tubosStr.length);
-        for (int i = 0; i < tubosStr.length; i++) {
-            String[] bolasStr = tubosStr[i].split(" ");
-            if (bolasStr.length > 4) throw new RuntimeException("Mais de 4 bolas no tubo");
-            e.tubos[i].n = bolasStr.length;
-            for (int j = 0; j < bolasStr.length; j++) {
-                e.tubos[i].bs[j] = Bola.from(bolasStr[j]);
-            }
-        }
-        return e;
     }
 
     @Override

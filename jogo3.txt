@@ -1,0 +1,5 @@
+vecl verm lara azuc
+azuc verm lara
+vecl
+verm azuc lara azuc
+lara vecl verm vecl

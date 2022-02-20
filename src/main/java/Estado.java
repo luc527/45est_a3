@@ -119,6 +119,12 @@ public class Estado
         }
     }
 
+    private Bola corQueNaoAparece4vezes;
+
+    public Bola corQueNaoAparece4vezes() {
+        return corQueNaoAparece4vezes;
+    }
+
     public boolean valido() {
         for (Bola bola : Bola.values()) {
             int count = 0;
@@ -127,6 +133,7 @@ public class Estado
                     if (tubos[t].bs[b] == bola)
                         count++;
             if (count != 0 && count != 4) {
+                corQueNaoAparece4vezes = bola;
                 return false;
             }
         }

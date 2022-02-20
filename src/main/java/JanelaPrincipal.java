@@ -48,7 +48,7 @@ public class JanelaPrincipal
                     if (!estado.valido()) {
                         JOptionPane.showMessageDialog(
                             frame,
-                            "Jogo inválido. Toda cor que aparecer deve aparecer exatamente 4 vezes.",
+                            "Jogo inválido. "+estado.corQueNaoAparece4vezes()+" não aparece 4 vezes.",
                             "Erro",
                             JOptionPane.ERROR_MESSAGE
                         );

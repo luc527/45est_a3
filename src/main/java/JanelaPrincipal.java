@@ -8,6 +8,7 @@ import java.nio.file.Path;
 public class JanelaPrincipal
 {
     private Estado estado;
+    private JFrame frame;
 
     public JanelaPrincipal()
     {
@@ -16,8 +17,17 @@ public class JanelaPrincipal
         JButton btnLargura = new JButton("Largura");
         JButton btnSobre = new JButton("Sobre");
 
+        SpinnerNumberModel spinnerPmaxModel = new SpinnerNumberModel(-1, -1, Integer.MAX_VALUE, 1);
+        JSpinner spinnerPmax = new JSpinner(spinnerPmaxModel);
+        JLabel lbPmax = new JLabel("Profundidade máxima (-1 = ∞)");
+
+        JPanel panelPmax = new JPanel(new BorderLayout());
+        panelPmax.add(lbPmax, BorderLayout.NORTH);
+        panelPmax.add(spinnerPmax, BorderLayout.SOUTH);
+
         JPanel panelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelBotoes.add(btnCarregar);
+        panelBotoes.add(panelPmax);
         panelBotoes.add(btnProfundidade);
         panelBotoes.add(btnLargura);
         panelBotoes.add(btnSobre);
@@ -27,7 +37,7 @@ public class JanelaPrincipal
         panel.add(estadoImagem, BorderLayout.CENTER);
         panel.add(panelBotoes, BorderLayout.PAGE_END);
 
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.setContentPane(panel);
         frame.setTitle("Ball Sort Puzzle Solver – Trabalho de 45EST");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -67,17 +77,11 @@ public class JanelaPrincipal
         });
 
         btnLargura.addActionListener(e -> {
-            BuscaLargura busca = new BuscaLargura();
-            List<Estado> solucao = busca.fazer(estado);
-            int tempoMs = busca.tempoMs();
-            new JanelaSolucao(solucao, "Largura", tempoMs);
+            fazerBusca(new BuscaLargura(), (Integer) spinnerPmax.getValue(), "Largura");
         });
 
         btnProfundidade.addActionListener(e -> {
-            BuscaProfundidade busca = new BuscaProfundidade();
-            List<Estado> solucao = busca.fazer(estado);
-            int tempoMs = busca.tempoMs();
-            new JanelaSolucao(solucao, "Profundidade", tempoMs);
+            fazerBusca(new BuscaProfundidade(), (Integer) spinnerPmax.getValue(), "Profundidade");
         });
 
         btnSobre.addActionListener(e -> {
@@ -88,5 +92,19 @@ public class JanelaPrincipal
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    public void fazerBusca(Busca busca, int pmax, String titulo) {
+        List<Estado> solucao = busca.fazer(estado, pmax);
+        if (!busca.sucesso()) {
+            JOptionPane.showMessageDialog(frame,
+                "Não conseguimos encontrar uma solução",
+                "Aviso",
+                JOptionPane.WARNING_MESSAGE
+            );
+        } else {
+            int tempoMs = busca.tempoMs();
+            new JanelaSolucao(solucao, titulo, tempoMs);
+        }
     }
 }

@@ -15,7 +15,7 @@ public class JanelaSobre
     {
         JLabel lb1 = new JLabel("Desenvolvido por: ");
         JLabel lb2 = new JLabel("Lucas Moraes Schwambach – lucas.schwambach52@gmail.com");
-        JLabel lb3 = new JLabel(" TODO ");
+        JLabel lb3 = new JLabel("Mateus Lucas Cruz Brandt – mateusslucass840@gmail.com");
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));

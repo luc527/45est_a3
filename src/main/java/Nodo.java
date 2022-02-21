@@ -2,8 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class Nodo
-{
+public class Nodo {
     public final Nodo pai;
     public final Estado estado;
     public final int profundidade;

@@ -9,7 +9,7 @@ public class BuscaProfundidade implements Busca
     private boolean sucesso = false;
 
     // Cachê pra evitar recomputação
-    private Set<Estado> vistos = new HashSet<>();
+    private final Set<Estado> vistos = new HashSet<>();
 
     // pmax: profundidade máxima, -1 para não limitar
     public List<Estado> fazer(Estado inicial, int pmax) {

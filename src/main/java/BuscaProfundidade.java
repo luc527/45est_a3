@@ -3,8 +3,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
-public class BuscaProfundidade implements Busca
-{
+public class BuscaProfundidade implements Busca {
     private int tempoMs = 0;
     private boolean sucesso = false;
 

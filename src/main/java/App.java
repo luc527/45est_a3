@@ -4,8 +4,7 @@ import com.github.weisj.darklaf.theme.laf.DarculaThemeDarklafLookAndFeel;
 
 import javax.swing.*;
 
-public class App
-{
+public class App {
     public static void main(String[] args) {
         // Initialize the theme
         LafManager.install();

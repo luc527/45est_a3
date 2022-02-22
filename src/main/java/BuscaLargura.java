@@ -1,7 +1,6 @@
 import java.util.*;
 
-public class BuscaLargura implements Busca
-{
+public class BuscaLargura implements Busca {
     private int tempoMs = 0;
     private boolean sucesso = false;
 
@@ -27,9 +26,11 @@ public class BuscaLargura implements Busca
                     sucesso = true;
                     break;
                 }
-                nodo.estado.sucessores().forEach(sucessor -> queue.add(new Nodo(nodo, sucessor)));
-            }
 
+                for (Estado sucessor : nodo.estado.sucessores()) {
+                    queue.add(new Nodo(nodo, sucessor));
+                }
+            }
         }
 
         tempoMs = (int) System.currentTimeMillis() - tempoInicio;

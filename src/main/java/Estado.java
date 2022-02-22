@@ -41,7 +41,7 @@ public class Estado
         }
     }
 
-    private Tubo[] tubos;
+    private final Tubo[] tubos;
 
     // ------------------------------
 
@@ -55,9 +55,7 @@ public class Estado
         Estado c = new Estado(tubos.length - 2);
         for (int i = 0; i < tubos.length; i++) {
             c.tubos[i].n = tubos[i].n;
-            for (int j = 0; j < 4; j++) {
-                c.tubos[i].bs[j] = tubos[i].bs[j];
-            }
+            System.arraycopy(tubos[i].bs, 0, c.tubos[i].bs, 0, 4);
         }
         return c;
     }
@@ -128,9 +126,9 @@ public class Estado
     public boolean valido() {
         for (Bola bola : Bola.values()) {
             int count = 0;
-            for (int t = 0; t < tubos.length; t++)
+            for (Tubo tubo : tubos)
                 for (int b = 0; b < 4; b++)
-                    if (tubos[t].bs[b] == bola)
+                    if (tubo.bs[b] == bola)
                         count++;
             if (count != 0 && count != 4) {
                 corQueNaoAparece4vezes = bola;
@@ -160,13 +158,13 @@ public class Estado
     public String toString() {
         StringBuilder sb = new StringBuilder();
         String sep1 = "";
-        for (int i = 0; i < tubos.length; i++) {
+        for (Tubo tubo : tubos) {
             sb.append(sep1);
             String sep2 = "";
             for (int j = 0; j < 4; j++) {
-                Bola b = tubos[i].bs[j];
+                Bola b = tubo.bs[j];
                 if (b == null) break;
-                sb.append(sep2).append(b.toString());
+                sb.append(sep2).append(b);
                 sep2 = " ";
 
             }

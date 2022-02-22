@@ -2,18 +2,18 @@ import java.awt.*;
 
 public enum Bola
 {
-    VERDE_CLARO("vecl", new Color(0xB5E61D)),
-    CINZA("cinz", Color.GRAY),
-    LARANJA("lara", Color.ORANGE),
-    AMARELO("amar", Color.YELLOW),
-    VERMELHO("verm", Color.RED),
-    ROXO("roxo", new Color(0xA349A4)),
-    VERDE("verd", Color.GREEN),
-    AZUL_CLARO("azuc", new Color(0x99D9EA)),
-    ROSA("rosa", Color.PINK),
-    MARROM("marr", new Color(0xB97A57)),
-    AZUL("azul", Color.BLUE),
-    VERDE_ESCURO("vesc", new Color(0x0F4F22));
+    VERDE_CLARO  ("vecl", new Color(0xB5E61D)),
+    CINZA        ("cinz", Color.GRAY),
+    LARANJA      ("lara", Color.ORANGE),
+    AMARELO      ("amar", Color.YELLOW),
+    VERMELHO     ("verm", Color.RED),
+    ROXO         ("roxo", new Color(0xA349A4)),
+    VERDE        ("verd", Color.GREEN),
+    AZUL_CLARO   ("azuc", new Color(0x99D9EA)),
+    ROSA         ("rosa", Color.PINK),
+    MARROM       ("marr", new Color(0xB97A57)),
+    AZUL         ("azul", Color.BLUE),
+    VERDE_ESCURO ("vesc", new Color(0x0F4F22));
 
     private String s;
     private Color cor;

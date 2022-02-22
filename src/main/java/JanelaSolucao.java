@@ -2,8 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
-public class JanelaSolucao
-{
+public class JanelaSolucao {
     private final List<Estado> solucao;
     private int indiceAtual;
 
@@ -21,10 +20,9 @@ public class JanelaSolucao
 
     // ------------------------------
 
-    public JanelaSolucao(List<Estado> solucao, String metodo, int tempoMs)
-    {
+    public JanelaSolucao(List<Estado> solucao, String metodo, int tempoMs) {
         if (solucao.size() == 0) {
-            throw new RuntimeException("Janela não pode ser aberta com 0 soluções");
+            throw new RuntimeException("Janela nao pode ser aberta com 0 solucoes");
         }
 
         this.solucao = solucao;
@@ -69,12 +67,11 @@ public class JanelaSolucao
         refresh(0);
     }
 
-    private void refresh(int i)
-    {
+    private void refresh(int i) {
         this.indiceAtual = i;
 
         cabecalho.setText(
-                String.format("%s (%d/%d) %dms", metodo, indiceAtual+1, solucao.size(), tempoMs)
+                String.format("Metodo de solucao: %s | Posicao: (%d/%d) | Tempo de execucao: %dms", metodo, ++indiceAtual, solucao.size(), tempoMs)
         );
 
         voltarTudo.setEnabled(true);

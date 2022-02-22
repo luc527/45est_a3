@@ -15,8 +15,8 @@ public enum Bola
     AZUL         ("azul", Color.BLUE),
     VERDE_ESCURO ("vesc", new Color(0x0F4F22));
 
-    private String s;
-    private Color cor;
+    private final String s;
+    private final Color cor;
 
     Bola(String s, Color cor) {
         this.s = s;

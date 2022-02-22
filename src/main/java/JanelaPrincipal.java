@@ -5,10 +5,9 @@ import java.util.List;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class JanelaPrincipal
-{
+public class JanelaPrincipal {
     private Estado estado;
-    private JFrame frame;
+    private final JFrame frame;
 
     public JanelaPrincipal()
     {
@@ -19,7 +18,7 @@ public class JanelaPrincipal
 
         SpinnerNumberModel spinnerPmaxModel = new SpinnerNumberModel(-1, -1, Integer.MAX_VALUE, 1);
         JSpinner spinnerPmax = new JSpinner(spinnerPmaxModel);
-        JLabel lbPmax = new JLabel("Profundidade máxima (-1 = ∞)");
+        JLabel lbPmax = new JLabel("Profundidade maxima (-1 = ilimitado)");
 
         JPanel panelPmax = new JPanel(new BorderLayout());
         panelPmax.add(lbPmax, BorderLayout.NORTH);
@@ -58,7 +57,7 @@ public class JanelaPrincipal
                     if (!estado.valido()) {
                         JOptionPane.showMessageDialog(
                             frame,
-                            "Jogo inválido. "+estado.corQueNaoAparece4vezes()+" não aparece 4 vezes.",
+                            "Jogo invalido. "+estado.corQueNaoAparece4vezes()+" nao aparece 4 vezes.",
                             "Erro",
                             JOptionPane.ERROR_MESSAGE
                         );
@@ -76,17 +75,11 @@ public class JanelaPrincipal
             }
         });
 
-        btnLargura.addActionListener(e -> {
-            fazerBusca(new BuscaLargura(), (Integer) spinnerPmax.getValue(), "Largura");
-        });
+        btnLargura.addActionListener(e -> fazerBusca(new BuscaLargura(), (Integer) spinnerPmax.getValue(), "Largura"));
 
-        btnProfundidade.addActionListener(e -> {
-            fazerBusca(new BuscaProfundidade(), (Integer) spinnerPmax.getValue(), "Profundidade");
-        });
+        btnProfundidade.addActionListener(e -> fazerBusca(new BuscaProfundidade(), (Integer) spinnerPmax.getValue(), "Profundidade"));
 
-        btnSobre.addActionListener(e -> {
-            JanelaSobre.getInstance().display();
-        });
+        btnSobre.addActionListener(e -> JanelaSobre.getInstance().display());
 
         frame.repaint();
         frame.pack();
@@ -95,16 +88,28 @@ public class JanelaPrincipal
     }
 
     public void fazerBusca(Busca busca, int pmax, String titulo) {
-        List<Estado> solucao = busca.fazer(estado, pmax);
-        if (!busca.sucesso()) {
+        try {
+            JanelaCarregando.getInstance().display();
+            List<Estado> solucao = busca.fazer(estado, pmax);
+            JanelaCarregando.getInstance().destroy();
+            if (!busca.sucesso()) {
+                JOptionPane.showMessageDialog(frame,
+                        "Nao conseguimos encontrar uma solucao",
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            } else {
+                int tempoMs = busca.tempoMs();
+                new JanelaSolucao(solucao, titulo, tempoMs);
+            }
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(frame,
-                "Não conseguimos encontrar uma solução",
-                "Aviso",
-                JOptionPane.WARNING_MESSAGE
+                "Nao conseguimos encontrar uma solucao: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE
             );
-        } else {
-            int tempoMs = busca.tempoMs();
-            new JanelaSolucao(solucao, titulo, tempoMs);
+        } finally {
+            JanelaCarregando.getInstance().destroy();
         }
     }
 }

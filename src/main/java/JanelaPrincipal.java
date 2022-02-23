@@ -92,7 +92,7 @@ public class JanelaPrincipal {
 
         if (busca instanceof BuscaLargura && estado.numeroDeTubos() > 9) {
             JOptionPane.showMessageDialog(frame,
-                    "Nao e possivel resolvar pelo metodo de largura com um numero de tubos maior que 9",
+                    "Nao e possivel resolver pelo metodo de largura com mais de 9 tubos",
                     "Aviso",
                     JOptionPane.WARNING_MESSAGE
             );

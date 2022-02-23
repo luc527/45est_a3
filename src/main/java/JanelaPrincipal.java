@@ -4,13 +4,13 @@ import java.awt.*;
 import java.util.List;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class JanelaPrincipal {
     private Estado estado;
     private final JFrame frame;
 
-    public JanelaPrincipal()
-    {
+    public JanelaPrincipal() {
         JButton btnCarregar = new JButton("Carregar");
         JButton btnProfundidade = new JButton("Profundidade");
         JButton btnLargura = new JButton("Largura");
@@ -81,6 +81,7 @@ public class JanelaPrincipal {
 
         btnSobre.addActionListener(e -> JanelaSobre.getInstance().display());
 
+
         frame.repaint();
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -88,28 +89,32 @@ public class JanelaPrincipal {
     }
 
     public void fazerBusca(Busca busca, int pmax, String titulo) {
-        try {
-            JanelaCarregando.getInstance().display();
-            List<Estado> solucao = busca.fazer(estado, pmax);
-            JanelaCarregando.getInstance().destroy();
-            if (!busca.sucesso()) {
-                JOptionPane.showMessageDialog(frame,
-                        "Nao conseguimos encontrar uma solucao",
-                        "Aviso",
-                        JOptionPane.WARNING_MESSAGE
-                );
-            } else {
-                int tempoMs = busca.tempoMs();
-                new JanelaSolucao(solucao, titulo, tempoMs);
-            }
-        } catch (Exception e) {
+
+        if (busca instanceof BuscaLargura && estado.numeroDeTubos() > 9) {
             JOptionPane.showMessageDialog(frame,
-                "Nao conseguimos encontrar uma solucao: " + e.getMessage(),
-                "Erro",
-                JOptionPane.ERROR_MESSAGE
+                    "Nao e possivel resolvar pelo metodo de largura com um numero de tubos maior que 9",
+                    "Aviso",
+                    JOptionPane.WARNING_MESSAGE
             );
-        } finally {
-            JanelaCarregando.getInstance().destroy();
+        } else {
+            AtomicReference<List<Estado>> solucao = new AtomicReference<>();
+            Thread solucionar = new Thread(() -> {
+                Carregando carregando = new Carregando(frame);
+                carregando.iniciar();
+                solucao.set(busca.fazer(estado, pmax));
+                carregando.parar();
+                if (!busca.sucesso()) {
+                    JOptionPane.showMessageDialog(frame,
+                            "Nao conseguimos encontrar uma solucao",
+                            "Aviso",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                } else {
+                    int tempoMs = busca.tempoMs();
+                    new JanelaSolucao(solucao.get(), titulo, tempoMs);
+                }
+            });
+            solucionar.start();
         }
     }
 }

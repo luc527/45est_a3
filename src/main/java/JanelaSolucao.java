@@ -71,7 +71,7 @@ public class JanelaSolucao {
         this.indiceAtual = i;
 
         cabecalho.setText(
-                String.format("Metodo de solucao: %s | Posicao: (%d/%d) | Tempo de execucao: %dms", metodo, ++indiceAtual, solucao.size(), tempoMs)
+                String.format("Metodo de solucao: %s | Posicao: (%d/%d) | Tempo de execucao: %dms", metodo, indiceAtual + 1, solucao.size(), tempoMs)
         );
 
         voltarTudo.setEnabled(true);
